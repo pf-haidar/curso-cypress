@@ -1,7 +1,7 @@
 ///<reference types="cypress" />
 
-describe('Cypress basics', () =>{
-    it.only('Should visit a page and assert title', () =>{
+describe('Cypress basics', () => {
+    it.only('Should visit a page and assert title', () => {
         cy.visit('https://wcaquino.me/cypress/componentes.html')
 
         // const title = cy.title()
@@ -13,19 +13,37 @@ describe('Cypress basics', () =>{
 
         cy.title().should('be.equal', 'Campo de Treinamento')
         cy.title().should('contain', 'Campo')
-        
+
         cy.title()
             .should('be.equal', 'Campo de Treinamento')
             .should('contain', 'Campo')
-            
+
         cy.title()
             .should('be.equal', 'Campo de Treinamento')
             .and('contain', 'Campo')
 
-        //TODO imprimir o title no console
-        //TODO escrever o title em um campo de texto
+        let syncTitle
+
+        cy.title().then(title => {
+            console.log(title)
+
+            cy.get('#formNome')
+                .type(title)
+
+            syncTitle = title
+        })
+
+        //por  JQUERY
+        cy.get('[data-cy=dataSobrenome]').then($el => {
+            $el.val(syncTitle)
+        })
+
+        cy.get('#elementosForm\\:sugestoes').then($el => {
+            cy.wrap($el).type(syncTitle)
+        })
+
     })
-    it('Should find and interact with an element', () =>{
+    it('Should find and interact with an element', () => {
         cy.visit('https://wcaquino.me/cypress/componentes.html')
 
         cy.get('#buttonSimple')

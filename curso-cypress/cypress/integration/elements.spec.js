@@ -1,15 +1,15 @@
 ///<reference types="cypress" />
 
-describe('Work with basic elements', ()=>{
-    before(() =>{
+describe('Work with basic elements', () => {
+    before(() => {
         cy.visit('https://wcaquino.me/cypress/componentes.html')
     })
 
-    beforeEach(() =>{
+    beforeEach(() => {
         cy.reload()
     })
 
-    it('Text', () =>{
+    it('Text', () => {
         //cy.visit('https://wcaquino.me/cypress/componentes.html')
         cy.get('body').should('contain', 'Cuidado')
         cy.get('span').should('contain', 'Cuidado')
@@ -17,7 +17,7 @@ describe('Work with basic elements', ()=>{
         cy.get('.facilAchar').should('have.text', 'Cuidado onde clica, muitas armadilhas...')
     })
 
-    it('Links', ()=>{
+    it('Links', () => {
         //cy.visit('https://wcaquino.me/cypress/componentes.html')
         cy.get('a').contains('Voltar').click()
         cy.get('#resultado').should('have.text', 'Voltou!')
@@ -26,7 +26,7 @@ describe('Work with basic elements', ()=>{
         cy.get('#resultado').should('have.not.text', 'Voltou!')
     })
 
-    it('TextFields', () =>{
+    it('TextFields', () => {
         cy.get('#formNome').type('Cypress Test')
         cy.get('#formNome').should('have.value', 'Cypress Test')
 
@@ -48,31 +48,31 @@ describe('Work with basic elements', ()=>{
             .should('have.value', 'acerto')
     })
 
-    it('RadioButton', () =>{
+    it('RadioButton', () => {
         cy.get('#formSexoFem')
             .click()
             .should('be.checked')
 
         cy.get('#formSexoMasc')
             .should('not.be.checked')
-        
+
         cy.get("[name=formSexo]")
             .should('have.length', 2)
     })
 
-    it('Checkbox', () =>{
+    it('Checkbox', () => {
         cy.get('#formComidaPizza')
             .click()
             .should('be.checked')
 
         cy.get('[name=formComidaFavorita]')
-            .click({multiple: true})
+            .click({ multiple: true })
 
         cy.get('#formComidaPizza').should('not.be.checked')
         cy.get('#formComidaVegetariana').should('be.checked')
     })
 
-    it('Combo', () =>{
+    it.only('Combo', () => {
         cy.get('[data-test=dataEscolaridade]')
             .select('1graucomp')
             .should('have.value', '1graucomp')
@@ -81,13 +81,34 @@ describe('Work with basic elements', ()=>{
             .select('2graucomp')
             .should('have.value', '2graucomp')
 
-        //TODO validar as opções do combo
+
+        cy.get('[data-test=dataEscolaridade] option')
+            .should('have.length', 8)
+
+        cy.get('[data-test=dataEscolaridade] option').then($arr => {
+            const values = []
+            $arr.each(function () {
+                values.push(this.innerHTML)
+            })
+            expect(values).to.include.members(["Superior", "Mestrado"])
+        })
+
     })
 
-    it.only('Combo multiplo', () =>{
+    it.only('Combo multiplo', () => {
         cy.get('[data-testid=dataEsportes]')
-            .select(['natacao', 'Corrida'])
+            .select(['natacao', 'Corrida', 'nada'])
 
-        //TODO validar opções selecionadas do combo multiplo
+        // cy.get('[data-testid=dataEsportes]').should('have.value', ['natacao', 'Corrida', 'nada'])
+
+        cy.get('[data-testid=dataEsportes]').then($el => {
+            expect($el.val()).to.be.deep.equal(['natacao', 'Corrida', 'nada'])
+            expect($el.val()).to.have.length(3)
+        })
+         
+
+        cy.get('[data-testid=dataEsportes]')
+            .invoke('val')
+            .should('eql', ['natacao', 'Corrida', 'nada'])
     })
 })
