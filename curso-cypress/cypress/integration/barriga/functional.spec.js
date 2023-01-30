@@ -5,7 +5,7 @@ import '../../support/commandsContas'
 
 describe('Should test at a functional level', () => {
     before(() => {
-        cy.login('pedrohaidarfilho@hotmail.com', '12345678')
+        cy.login('', '12345678')
     })
 
     beforeEach(() => {

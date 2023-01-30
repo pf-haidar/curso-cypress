@@ -74,7 +74,7 @@ Cypress.Commands.add('resetRest', (token) => {
 })
 
 Cypress.Commands.add('getContaByName', name => {
-    cy.getToken('pedrohaidarfilho@hotmail.com', '12345678').then(token => {
+    cy.getToken('', '12345678').then(token => {
         cy.request({
             method: 'GET',
             url: '/contas',

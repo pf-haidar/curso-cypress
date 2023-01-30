@@ -11,7 +11,7 @@ describe('Should test at a functional level', () => {
 
     beforeEach(() => {
         buildEnv()
-        cy.login('pedrohaidarfilho@hotmail.com', 'senha errada')
+        cy.login('', 'senha errada')
         cy.get(loc.MENU.HOME).click()
         cy.resetApp()
     })

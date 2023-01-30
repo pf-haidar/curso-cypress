@@ -4,7 +4,7 @@ describe('Should test at a functional level', () => {
     // let token
 
     before(() => {
-        cy.getToken('pedrohaidarfilho@hotmail.com', '12345678')
+        cy.getToken('', '12345678')
             // .then(tkn => {
             //     token = tkn
             // })
